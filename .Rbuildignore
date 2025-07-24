@@ -3,3 +3,4 @@
 ^rawdatafiles$
 ^LICENSE\.md$
 ^data-raw$
+^report$
