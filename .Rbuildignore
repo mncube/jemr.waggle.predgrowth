@@ -1,2 +1,5 @@
 ^jemr\.waggle\.predgrowth\.Rproj$
 ^\.Rproj\.user$
+^rawdatafiles$
+^LICENSE\.md$
+^data-raw$
