@@ -13,3 +13,5 @@ BugReports: https://github.com/mncube/jemr.waggle.predgrowth/issues
 Depends: 
     R (>= 3.5)
 LazyData: true
+Imports: 
+    dplyr
