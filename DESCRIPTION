@@ -14,4 +14,15 @@ Depends:
     R (>= 3.5)
 LazyData: true
 Imports: 
-    dplyr
+    broom.mixed,
+    car,
+    corrplot,
+    dplyr,
+    emmeans,
+    ggeffects,
+    ggplot2,
+    lmerTest,
+    parameters,
+    rlang,
+    robustbase,
+    tableone

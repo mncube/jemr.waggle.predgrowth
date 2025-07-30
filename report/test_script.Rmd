@@ -13,20 +13,45 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 devtools::load_all()
+kwm <- clean(klein_waggle_math) |> dplyr::filter(!is.na(outcome))
 ```
 
 
-```{r}
-tableone::CreateTableOne(vars = c("mapm_f_projected_spring_rit",
-                                  "mapm_f_assess_score",
-                                  "waggle_math_assignments_completed_sytd",
-                                  "waggle_math_session_count_sytd",
-                                  "waggle_math_total_time_sytd_minutes"),
-                         strata = "grade",
-                         data = klein_waggle_math)
+# Run Linear Model Analysis
 
-cor(klein_waggle_math |> dplyr::select(waggle_math_assignments_completed_sytd,
-                                       waggle_math_session_count_sytd,
-                                       waggle_math_total_time_sytd_minutes))
+```{r}
+run_analysis(kwm, .mod = list("full"),
+.rhs = list("waggle_math_assignments_completed_sytd + waggle_math_session_count_sytd + waggle_math_total_time_sytd_minutes"),
+.terms = list("waggle_math_assignments_completed_sytd"))
+
+run_analysis(kwm |> dplyr::filter(grade_grp == "GK2"), .mod = list("full"),
+.rhs = list("waggle_math_assignments_completed_sytd + waggle_math_session_count_sytd + waggle_math_total_time_sytd_minutes"),
+.terms = list("waggle_math_assignments_completed_sytd"))
+
+run_analysis(kwm |> dplyr::filter(grade_grp == "G35"), .mod = list("full"),
+.rhs = list("waggle_math_assignments_completed_sytd + waggle_math_session_count_sytd + waggle_math_total_time_sytd_minutes"),
+.terms = list("waggle_math_assignments_completed_sytd"))
+```
+
+
+# Run Linear Model Analysis
+
+```{r}
+run_analysis(kwm |> dplyr::filter(grade_grp == "GK2"), .mod = list("full"),
+.rhs = list("waggle_math_assignments_completed_sytd + waggle_math_session_count_sytd + waggle_math_total_time_sytd_minutes + grade"),
+.terms = list("waggle_math_assignments_completed_sytd"))
+
+run_analysis(kwm |> dplyr::filter(grade_grp == "G35"), .mod = list("full"),
+.rhs = list("waggle_math_assignments_completed_sytd + waggle_math_session_count_sytd + waggle_math_total_time_sytd_minutes + grade"),
+.terms = list("waggle_math_assignments_completed_sytd"))
+```
+
+
+# Run Mixed Model Analysis
+
+```{r}
+run_analysis_mixed(kwm |> dplyr::filter(grade_grp == "GK2"), .mod = list("full"),
+.rhs = list("waggle_math_assignments_completed_sytd + waggle_math_session_count_sytd + waggle_math_total_time_sytd_minutes + grade + (1|school_pid)"),
+.terms = list("waggle_math_assignments_completed_sytd"))
 ```
 
