@@ -66,12 +66,13 @@ run_analysis <- function(
     .dat,
     .mod = list("full"),
     .rhs = list("waggle_math_assignments_completed_sytd + waggle_math_session_count_sytd + waggle_math_total_time_sytd_minutes + grade"),
-    .terms = list("waggle_math_assignments_completed_sytd")
+    .terms = list("waggle_math_assignments_completed_sytd"),
+    .setting = "MM"
     ){
 
   cat(paste("\nDescriptive Statistics:", "\n-------------------------\n"))
   tableone::CreateTableOne(vars = c("outcome",
-                                    "mapm_f_projected_spring_rit",
+                                    "mapm_s_assess_score",
                                     "mapm_f_assess_score",
                                     "waggle_math_assignments_completed_sytd",
                                     "waggle_math_session_count_sytd",
@@ -79,7 +80,7 @@ run_analysis <- function(
                            data = .dat) |> print()
 
   tableone::CreateTableOne(vars = c("outcome",
-                                    "mapm_f_projected_spring_rit",
+                                    "mapm_s_assess_score",
                                     "mapm_f_assess_score",
                                     "waggle_math_assignments_completed_sytd",
                                     "waggle_math_session_count_sytd",
@@ -187,7 +188,7 @@ run_analysis <- function(
 
       tryCatch({
         print(.formula)
-        modrob <- robustbase::lmrob(stats::as.formula(.formula), data = .dat)
+        modrob <- robustbase::lmrob(stats::as.formula(.formula), data = .dat, method= .setting)
         .sumrob <- summary(modrob)
         print(.sumrob)
       }, error = function(e) {
